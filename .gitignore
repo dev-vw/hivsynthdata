@@ -1,8 +1,11 @@
+# Raw data
+data-raw/
+
 # History files
 .Rhistory
 .Rapp.history
 
-# Session Data files
+# Session data files
 .RData
 .RDataTmp
 

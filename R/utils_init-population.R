@@ -5,7 +5,7 @@
 #'
 #' @import lubridate
 #' @return list decimal_age, rounded_age, birthday
-calc_age <- Vectorize(function(age_group, anchor_date) {
+assign_age <- Vectorize(function(age_group, anchor_date) {
 
   # calculate decimal age
   if (age_group == "65+") {
@@ -31,7 +31,7 @@ calc_age <- Vectorize(function(age_group, anchor_date) {
 #' @export
 #'
 #' @examples
-#' calc_birthday(13.4, "20234-01-01")
+#' calc_birthday(13.4, "2024-01-01")
 calc_birthday <- Vectorize(function(decimal_age, anchor_date) {
   # calculate birthday
   anchor_date <- as.Date(anchor_date)
@@ -42,6 +42,7 @@ calc_birthday <- Vectorize(function(decimal_age, anchor_date) {
   birthday <- birthday - lubridate::days(round(365.2425 * fraction_years))
 
   return(birthday)
+  # return(format(birthday, "%Y-%m-%d"))
 })
 
 #' Generates a vector of random phone numbers (in the Eswatini format)

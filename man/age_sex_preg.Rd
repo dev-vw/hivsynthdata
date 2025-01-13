@@ -13,23 +13,13 @@ A data frame with 2010 rows and 5 variables:
 \item{preg_satus}{Prenancy Status, "pregnant" or "not pregnant"}
 \item{prob}{Probability}
 }
-
-A data frame with 4 rows and 2 variables:
-\describe{
-\item{interaction_type}{Interaction type}
-\item{prob}{Probabilities}
-}
 }
 \usage{
-age_sex_preg
-
 age_sex_preg
 }
 \description{
 There are a series of rows that describe a unique and mutually exclusive
 categoryof individuals based on age group, sex, and pregnancy status. This
 data is transformed from the TX_CURR indicator from the 2023 PEPFAR MSDs.
-
-Probabilities associated with each interaction type
 }
 \keyword{datasets}

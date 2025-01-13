@@ -86,3 +86,8 @@ df <- df |>
   dplyr::arrange(patient_id, interaction_date)
 
 
+# lab data generation START -----------------------------------------------
+interactions <- readr::read_csv("outputs/interactions_11272024.csv") |>
+  dplyr::select(-`...1`)
+
+

@@ -86,22 +86,22 @@ gen_interaction_dates_ran <- function(date_start = "2020-01-01",
 
 #' Assigns interaction types to an input interaction df
 #'
-#' @importFrom dplyr mutate case_when
+#' @importFrom dplyr mutate case_when rowwise
 #' @param df a data frame
 #'
 #' @return df
 assign_interaction_type <- function(df) {
 
   df <- df |>
-    mutate(
+    dplyr::mutate(
       interaction_type = ifelse(
         duplicated(df) | duplicated(df, fromLast = TRUE),
         "lab",
         NA
       )
     ) |>
-    rowwise() |>
-    mutate(
+    dplyr::rowwise() |>
+    dplyr::mutate(
       interaction_type = ifelse(is.na(interaction_type),
                                 sample(interaction_type_probs$interaction_type,
                                        size = 1,
@@ -122,7 +122,7 @@ assign_interaction_type <- function(df) {
 #' @return df
 assign_interaction_source <- function(df) {
   df <- df |>
-    mutate(interaction_source = case_when(
+    dplyr::mutate(interaction_source = dplyr::case_when(
       interaction_type %in% c("clinic", "rx-pickup") ~ "EMR",
       interaction_type == "lab" ~ "LIS",
       TRUE ~ "CHIS"
@@ -197,8 +197,8 @@ assign_pregstatus <- function(df) {
 
 #' Updates pregnancy status
 #'
-#' @param df
-#' @param country
+#' @param df a df
+#' @param country a string
 #'
 #' @importFrom dplyr arrange
 #' @return a updated df
@@ -229,6 +229,8 @@ update_pregstatus <- function(country, df) {
       rb_date <- df[i-1, ]$rb_pregdate
 
       if (df[i-1, ]$preg_status == "pregnant") {
+        # if woman was pregnant at prior interaction
+
         if (int_date > start_date) {
           # she is still pregnant, preg_status reflects that
           df[i, ]$preg_status <- "pregnant"
@@ -252,13 +254,13 @@ update_pregstatus <- function(country, df) {
             dplyr::filter(agegroup == ag)
 
           # roll the dice on pregnancy
-          # is_preg <- sample(x = preg_probs$preg_status,
-          #                   size = 1,
-          #                   prob = preg_probs$prob)
-
-          is_preg <- sample(x = c("pregnant", "not pregnant"),
+          is_preg <- sample(x = preg_probs$preg_status,
                             size = 1,
-                            prob = c(0.5, 0.5))
+                            prob = preg_probs$prob)
+
+          # is_preg <- sample(x = c("pregnant", "not pregnant"),
+          #                   size = 1,
+          #                   prob = c(0.5, 0.5))
 
           df[i, ]$preg_status <- is_preg
           start_gest <- lubridate::interval(int_date,
@@ -274,7 +276,7 @@ update_pregstatus <- function(country, df) {
 
         }
       } else {
-        # woman was not pregnant
+        # woman was not pregnant at prior interaction
         ag <- df[i, ]$agegroup_interaction
 
         # new lookup table
@@ -313,9 +315,9 @@ update_pregstatus <- function(country, df) {
 
 #' Calculates preg date bounds
 #'
-#' @param anchor_pregstatus
-#' @param anchor_interaction_date
-#' @param start_gest
+#' @param anchor_pregstatus a date
+#' @param anchor_interaction_date a date
+#' @param start_gest an int
 #'
 #' @return a list of two vars
 calc_pregdate_bounds <- function(anchor_pregstatus,

@@ -48,4 +48,15 @@
 #'   \item{interaction_type}{Interaction type}
 #'   \item{prob}{Probabilities}
 #' }
-"age_sex_preg"
+"interaction_type_probs"
+
+#' Laboratory names
+#'
+#' A data frame of laboratory names
+#'
+#' @format A data frame with 1080 rows and 2 variables:
+#' \describe{
+#'   \item{country}{Country Name}
+#'   \item{lab_name}{Laboratory Name}
+#' }
+"lab_names"

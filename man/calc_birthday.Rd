@@ -16,5 +16,5 @@ a Date object birthday
 Given decimal age and date of refence (anchor_date), calculates birthday
 }
 \examples{
-calc_birthday(13.4, "20234-01-01")
+calc_birthday(13.4, "2024-01-01")
 }

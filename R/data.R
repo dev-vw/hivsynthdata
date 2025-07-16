@@ -26,7 +26,7 @@
 #' Patient initialization table
 #'
 #' There are a series of rows that describe a unique and mutually exclusive
-#' categoryof individuals based on age group, sex, and pregnancy status. This
+#' category of individuals based on age group, sex, and pregnancy status. This
 #' data is transformed from the TX_CURR indicator from the 2023 PEPFAR MSDs.
 #'
 #' @format A data frame with 2010 rows and 5 variables:

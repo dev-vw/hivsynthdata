@@ -10,9 +10,9 @@ init_interactions <- function(patient_data) {
   # extract unique patient ids and assign an n_interactions row
   print("Adding variable: interaction_date")
   n_interactions_tbl <- patient_data |>
-    select(patient_id) |>
-    rowwise() |>
-    mutate(n_interactions = gen_n_interactions())
+    dplyr::select(patient_id) |>
+    dplyr::rowwise() |>
+    dplyr::mutate(n_interactions = gen_n_interactions())
 
   interactions_dates_list <- lapply(1:nrow(n_interactions_tbl), function(i) {
     gen_interaction_dates_ran(n_interactions = n_interactions_tbl$n_interactions[i])
@@ -52,17 +52,17 @@ init_interactions <- function(patient_data) {
   # joins patient data with interactions
   print("Adding variable: interaction_age")
   patients_interactions <- dplyr::left_join(patient_data, interactions, by = "patient_id")
-
   patients_interactions$interaction_age <- calc_age(patients_interactions$interaction_date,
                                                     patients_interactions$dob)
-
   # filter out negative interaction ages
-  patients_interactions <- patients_interactions |> filter(interaction_age > 0)
+  patients_interactions <- patients_interactions |> dplyr::filter(interaction_age > 0)
 
   # assigns agegroup_interaction ---
+  print("Adding variable: agegroup_interaction")
   patients_interactions <- assign_agegroup(patients_interactions)
 
   # assigns pregnancy status ---
+  print("Adding variable: preg_status")
   patients_interactions <- assign_pregstatus(patients_interactions)
 
 

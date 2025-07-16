@@ -156,9 +156,9 @@ calc_age <- function(interaction_dates, dobs) {
 #'
 #' @return df
 assign_agegroup <- function(df) {
-  df <- df %>%
-    mutate(
-      agegroup_interaction = case_when(
+  df <- df |>
+    dplyr::mutate(
+      agegroup_interaction = dplyr::case_when(
         interaction_age < 1 ~ "<01",
         interaction_age >= 1 & interaction_age < 5 ~ "1-4",
         interaction_age >= 5 & interaction_age < 10 ~ "5-9",
@@ -204,7 +204,7 @@ assign_pregstatus <- function(df) {
 #' @return a updated df
 update_pregstatus <- function(country, df) {
   # ensure reverse chronological order in this df
-  df <- df %>%
+  df <- df |>
     dplyr::arrange(desc(interaction_date))
 
   # initialize rb and start preg dates
